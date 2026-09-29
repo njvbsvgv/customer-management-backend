@@ -7,7 +7,6 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { MediaService } from 'src/utils/mediaUploader';
 import { UserModule } from 'src/user/user.module';
-// 
 
 @Module({
   imports: [TypeOrmModule.forFeature([Users]), jwtConfiguration('SECRET_KEY'), UserModule],
