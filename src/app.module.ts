@@ -10,6 +10,7 @@ import { CategoryModule } from './category/category.module';
 import { MediaService } from './utils/mediaUploader';
 import { UserActivityModule } from './user-activity/user-activity.module';
 import { SizeModule } from './size/size.module';
+import * as pg from 'pg';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { SizeModule } from './size/size.module';
       useFactory: (config: ConfigService) => ({
         type: "postgres",
         url: config.get('DATABASE_URL'),
+        driver: pg,
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
       }),
