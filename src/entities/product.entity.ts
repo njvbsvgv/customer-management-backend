@@ -7,38 +7,39 @@ import {
 } from 'typeorm';
 import Category from './category.entity';
 import Size from './size.entity';
+import { CreateCategoryDto } from 'src/category/dto/create-category.dto';
 
 @Entity('products')
 export default class Products {
   @PrimaryGeneratedColumn('uuid')
-  id!: number;
+  id!: string;
 
   @Column({ nullable: false })
-  photo!: string;
+  photo!: string;//
 
   @Column({ default: [], type: 'jsonb' })
-  photo_list!: {id: string, url: string}[] | [];
+  photo_list!: {id: string, url: string}[];
 
-  @Column({ length: 20, nullable: false })
-  product_title!: string;
+  @Column({ length: 200, nullable: false })
+  product_title!: string;//
 
   @Column({ length: 500, nullable: false })
-  description!: string;
+  description!: string;//
 
   @Column({ nullable: false })
-  price!: number;
+  price!: number;//
 
   @Column({default: 2})
-  rate!: string;
+  rate!: string;//
 
   @Column({default: 0})
   review!: number;
 
-  @Column()
-  categories!: string;
+  @Column({type: "jsonb"})
+  subCategory!: CreateCategoryDto;
   
   @Column({default: 100})
-  stock!: number;
+  stock!: number;//
 
   @ManyToMany(() => Category, (category) => category.products)
   @JoinTable({

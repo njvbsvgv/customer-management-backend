@@ -9,6 +9,7 @@ import { ProductsModule } from './products/products.module';
 import { CategoryModule } from './category/category.module';
 import { MediaService } from './utils/mediaUploader';
 import { UserActivityModule } from './user-activity/user-activity.module';
+import { SizeModule } from './size/size.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { UserActivityModule } from './user-activity/user-activity.module';
     ProductsModule,
     CategoryModule,
     UserActivityModule,
+    SizeModule,
     
   ],
   controllers: [AppController],

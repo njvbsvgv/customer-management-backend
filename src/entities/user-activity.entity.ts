@@ -21,6 +21,6 @@ export default class UserActivity {
   @Column()
   createAt!: Date;
 
-  @ManyToOne(() => Users, (user) => user.activities)
+  @ManyToOne(() => Users, (user) => user.activities, {onDelete: "CASCADE"})
   user!: Users;
 }

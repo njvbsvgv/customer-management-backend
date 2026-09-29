@@ -1,34 +1,32 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Delete, Get, Param } from '@nestjs/common';
+import successMessageHandler from 'src/utils/successMessageHandler';
 import { UserActivityService } from './user-activity.service';
-import { CreateUserActivityDto } from './dto/create-user-activity.dto';
-import { UpdateUserActivityDto } from './dto/update-user-activity.dto';
+import customError from 'src/utils/customError';
 
-@Controller('user-activity')
+@Controller('activity')
 export class UserActivityController {
   constructor(private readonly userActivityService: UserActivityService) {}
 
-  @Post()
-  create(@Body() createUserActivityDto: CreateUserActivityDto) {
-    return this.userActivityService.create(createUserActivityDto);
+  @Get('list')
+  async getActivityList() {
+    const list = await this.userActivityService.getActivityList();
+    return successMessageHandler(
+      {
+        message: 'get activity list successfully😍✅',
+        data: list,
+        totalCount: list.length,
+      },
+      200,
+    );
   }
 
-  @Get()
-  findAll() {
-    return this.userActivityService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userActivityService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserActivityDto: UpdateUserActivityDto) {
-    return this.userActivityService.update(+id, updateUserActivityDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userActivityService.remove(+id);
+  @Delete('delete/:id')
+  async deleteActivity(@Param('id') id: string) {
+    const deleteResult = await this.userActivityService.deleteActivity(id);
+    if (deleteResult) {
+      return successMessageHandler('delete activity successfully✅', 200);
+    } else {
+      customError('internal server error⚠️', 500);
+    }
   }
 }

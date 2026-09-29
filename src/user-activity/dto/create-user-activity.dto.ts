@@ -1,1 +1,4 @@
-export class CreateUserActivityDto {}
+export class CreateUserActivityDto {
+    title!: string;
+    description!: string;
+}

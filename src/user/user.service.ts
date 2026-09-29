@@ -2,12 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Users from 'src/entities/user.entity';
 import customError from 'src/utils/customError';
+import { dateGenerator } from 'src/utils/dateService';
 import { hashPasswordHandler } from 'src/utils/hashPassword';
 import { MediaService } from 'src/utils/mediaUploader';
 import { Repository } from 'typeorm';
-import { v4 as uuid } from 'uuid';
 import UpdateUserDto from './dto/updateUser.dto';
 import UserDto from './dto/user.dto';
+import { UserActivityService } from 'src/user-activity/user-activity.service';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,7 @@ export class UserService {
     @InjectRepository(Users)
     private readonly user_repository: Repository<Users>,
     private readonly MediaService: MediaService,
+    private readonly userActivityService: UserActivityService,
   ) {}
 
   async findUserByEmail(email: string) {
@@ -24,7 +26,11 @@ export class UserService {
 
   async findUserById(id: string) {
     const findUser = await this.user_repository.findOne({ where: { id } });
-    return findUser;
+    if (findUser) {
+      return findUser;
+    } else {
+      customError('user not found⚠️', 404);
+    }
   }
 
   async createUser(data: UserDto) {
@@ -32,7 +38,9 @@ export class UserService {
     if (findUserResult) {
       return false;
     } else {
-      const newUser = this.user_repository.create(data);
+      const date = dateGenerator();
+      console.log('date ==>', date);
+      const newUser = this.user_repository.create({ ...data, createAt: date });
       await this.user_repository.save(newUser);
       return true;
     }
@@ -48,10 +56,10 @@ export class UserService {
   }
 
   async updateUserPass(email: string, newPass: string) {
-    console.log("newPass ==>", newPass)
+    console.log('newPass ==>', newPass);
     const findUser = await this.findUserByEmail(email);
     const hashPass = await hashPasswordHandler(newPass);
-    console.log("hashPass ==>", hashPass)
+    console.log('hashPass ==>', hashPass);
     return await this.user_repository.update(
       { id: findUser?.id },
       { password: hashPass },
@@ -65,6 +73,22 @@ export class UserService {
       return updateResult;
     } else {
       customError('user is not found!', 400);
+    }
+  }
+
+  async createPhoto(userId: string, photo: Express.Multer.File) {
+    const findUser = await this.findUserById(userId);
+    if (findUser) {
+      const image = await this.MediaService.uploadMedia(photo, '/users');
+      const updateResult = await this.user_repository.update(
+        { id: userId },
+        { photo: image.url },
+      );
+      await this.userActivityService.create(userId, {
+        title: 'create photo',
+        description: 'create you photo',
+      });
+      return updateResult;
     }
   }
 

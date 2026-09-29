@@ -25,19 +25,26 @@ export default class Users {
   @Column({ type: 'date', nullable: true })
   createAt!: Date;
 
-  @Column()
+  @Column({ default: '' })
   phoneNumber!: string;
 
   @Column({ default: 'notActive' })
   status!: string;
 
-  @Column()
+  @Column({ default: '' })
   address!: string;
 
-  @Column()
+  @Column({ default: '' })
   note!: string;
 
-  @Column({ type: 'jsonb' })
+  @Column({
+    type: 'jsonb',
+    default: {
+      totalSpent: 0,
+      averageOrder: 0,
+      lastOrderDate: '',
+    },
+  })
   totalData!: {
     totalSpent: number;
     averageOrder: number;
@@ -55,4 +62,7 @@ export default class Users {
 
   @OneToMany(() => UserActivity, (activity) => activity.user)
   activities!: UserActivity[];
+
+  @Column({ type: 'timestamptz', nullable: true })
+  lastOrderDate!: Date | null;
 }

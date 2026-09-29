@@ -1,81 +1,6 @@
-// import ImageKit, { toFile } from '@imagekit/nodejs';
-
-// interface MediaFile {
-//   buffer: Buffer;
-//   originalname: string;
-// }
-
-//   console.log(
-//     'IMAGEKIT_PRIVATE_KEY:',
-//     process.env.IMAGEKIT_PRIVATE_KEY ? 'FOUND' : 'MISSING',
-//   );
-
-// const imageKit = new ImageKit({
-//   privateKey: process.env.IMAGEKIT_PRIVATE_KEY!,
-// });
-
-// export async function uploadMedia(
-//   file: MediaFile,
-//   folder = '/images',
-// ) {
-//   const uploadableFile = await toFile(
-//     file.buffer,
-//     file.originalname,
-//   );
-
-//   const result = await imageKit.files.upload({
-//     file: uploadableFile,
-//     fileName: file.originalname,
-//     folder,
-//     useUniqueFileName: true,
-//   });
-
-//   return {
-//     url: result.url,
-//     fileId: result.fileId,
-//     name: result.name,
-//   };
-// }
-
-// export async function deleteMedia(fileId: string) {
-//   return imageKit.files.delete(fileId);
-// }
-
-// import { memoryStorage } from 'multer';
-// import { FileInterceptor } from '@nestjs/platform-express';
-
-// export const imageUploadInterceptor = FileInterceptor('file', {
-//   storage: memoryStorage(),
-
-//   limits: {
-//     fileSize: 5 * 1024 * 1024,
-//   },
-
-//   fileFilter: (req, file, callback) => {
-//     const allowedMimeTypes = [
-//       'image/jpeg',
-//       'image/png',
-//       'image/webp',
-//       'image/gif',
-//     ];
-
-//     if (!allowedMimeTypes.includes(file.mimetype)) {
-//       return callback(
-//         new Error('Only image files are allowed'),
-//         false,
-//       );
-//     }
-
-//     callback(null, true);
-//   },
-// });
-
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import ImageKit, { toFile } from '@imagekit/nodejs';
-
-// import { memoryStorage } from 'multer';
-// import { FileInterceptor } from '@nestjs/platform-express';
 
 interface MediaFile {
   buffer: Buffer;
@@ -114,72 +39,40 @@ export class MediaService {
   }
 }
 
-// export const imageUploadInterceptor = FileInterceptor('image', {
-//   storage: memoryStorage(),
-
-//   limits: {
-//     fileSize: 5 * 1024 * 1024,
-//   },
-
-//   fileFilter: (req, file, callback) => {
-//     console.log("file ==>", file)
-//     const allowedMimeTypes = [
-//       'image/jpeg',
-//       'image/png',
-//       'image/webp',
-//       'image/gif',
-//     ];
-
-//     if (!allowedMimeTypes.includes(file.mimetype)) {
-//       return callback(new Error('Only image files are allowed'), false);
-//     }
-
-//     callback(null, true);
-//   },
-// });
-
-
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { extname } from 'path';
 
-export const imageUploadInterceptor = FileInterceptor('image', {
-  storage: memoryStorage(),
+export const imageUploadInterceptor = (fileName: string | "image") => {
+  return FileInterceptor(fileName, {
+    storage: memoryStorage(),
 
-  limits: {
-    fileSize: 5 * 1024 * 1024,
-  },
+    limits: {
+      fileSize: 5 * 1024 * 1024,
+    },
 
-  fileFilter: (req, file, callback) => {
-    console.log('file ==>', file);
+    fileFilter: (req, file, callback) => {
+      console.log('file ==>', file);
 
-    const allowedMimeTypes = [
-      'image/jpeg',
-      'image/png',
-      'image/webp',
-      'image/gif',
-    ];
+      const allowedMimeTypes = [
+        'image/jpeg',
+        'image/png',
+        'image/webp',
+        'image/gif',
+      ];
 
-    const allowedExtensions = [
-      '.jpg',
-      '.jpeg',
-      '.png',
-      '.webp',
-      '.gif',
-    ];
+      const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
 
-    const extension = extname(file.originalname).toLowerCase();
+      const extension = extname(file.originalname).toLowerCase();
 
-    const isValidMimeType = allowedMimeTypes.includes(file.mimetype);
-    const isValidExtension = allowedExtensions.includes(extension);
+      const isValidMimeType = allowedMimeTypes.includes(file.mimetype);
+      const isValidExtension = allowedExtensions.includes(extension);
 
-    if (!isValidMimeType && !isValidExtension) {
-      return callback(
-        new Error('Only image files are allowed'),
-        false,
-      );
-    }
+      if (!isValidMimeType && !isValidExtension) {
+        return callback(new Error('Only image files are allowed'), false);
+      }
 
-    callback(null, true);
-  },
-});
+      callback(null, true);
+    },
+  });
+};

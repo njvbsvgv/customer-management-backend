@@ -5,7 +5,6 @@ import {
   Get,
   Param,
   Post,
-  Put,
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
@@ -15,7 +14,6 @@ import successMessageHandler from 'src/utils/successMessageHandler';
 import UpdateUserDto from './dto/updateUser.dto';
 import UserDto from './dto/user.dto';
 import { UserService } from './user.service';
-import UpdateProfilePhotoDto from './dto/updateProfilePhoto.dto';
 
 @Controller('users')
 export class UserController {
@@ -49,6 +47,20 @@ export class UserController {
       );
     } else {
       customError('internal server error🚫', 500);
+    }
+  }
+
+  @Post('createPhoto/:id')
+  @UseInterceptors(imageUploadInterceptor('photo'))
+  async createPhoto(
+    @Param('id') id: string,
+    @UploadedFile() photo: Express.Multer.File,
+  ) {
+    const updateResult = await this.userService.createPhoto(id, photo);
+    if (updateResult?.affected) {
+      return successMessageHandler('create image successfully✅😍', 201);
+    } else {
+      customError('internal server error⚠️', 500);
     }
   }
 

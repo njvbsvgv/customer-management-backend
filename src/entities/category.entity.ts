@@ -6,7 +6,7 @@ export default class Category {
   @PrimaryGeneratedColumn("uuid")
   id!: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, default: "" })
   image!: string;
 
   @Column({ nullable: false })
@@ -18,6 +18,6 @@ export default class Category {
   @Column({ default: 1, nullable: false })
   rate!: number;
 
-  @ManyToMany(() => Products, (product) => product.categories)
+  @ManyToMany(() => Products, (product) => product.category)
   products!: Products[];
 }

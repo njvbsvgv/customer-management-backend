@@ -1,26 +1,32 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import UserActivity from 'src/entities/user-activity.entity';
+import { dateGenerator } from 'src/utils/dateService';
+import { Repository } from 'typeorm';
 import { CreateUserActivityDto } from './dto/create-user-activity.dto';
-import { UpdateUserActivityDto } from './dto/update-user-activity.dto';
 
 @Injectable()
 export class UserActivityService {
-  create(createUserActivityDto: CreateUserActivityDto) {
-    return 'This action adds a new userActivity';
+  constructor(
+    @InjectRepository(UserActivity)
+    private readonly activity_respository: Repository<UserActivity>,
+  ) {}
+
+  async create(userId: string, createUserActivityDto: CreateUserActivityDto) {
+    const newActivity = this.activity_respository.create({
+      ...createUserActivityDto,
+      createAt: dateGenerator(),
+      user: { id: userId },
+    });
+    await this.activity_respository.save(newActivity);
   }
 
-  findAll() {
-    return `This action returns all userActivity`;
+  async getActivityList() {
+    return await this.activity_respository.find({relations: {user: false}});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} userActivity`;
-  }
-
-  update(id: number, updateUserActivityDto: UpdateUserActivityDto) {
-    return `This action updates a #${id} userActivity`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} userActivity`;
+  async deleteActivity(id: string) {
+    const deleteResult = await this.activity_respository.delete({ id });
+    return deleteResult.affected;
   }
 }
