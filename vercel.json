@@ -1,15 +1,16 @@
 {
   "version": 2,
   "buildCommand": "npm run build",
-  "functions": {
-    "dist/main.js": {
-      "runtime": "nodejs22.x"
-    }
-  },
-  "rewrites": [
+  "builds": [
     {
-      "source": "/(.*)",
-      "destination": "/dist/main.js"
+      "src": "dist/main.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/main.js"
     }
   ]
 }
