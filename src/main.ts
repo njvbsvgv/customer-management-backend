@@ -70,10 +70,28 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { setupApp } from './setup-app.ts';
 
-async function bootstrap() {
+let cachedServer: any;
+
+async function createApp() {
   const app = await NestFactory.create(AppModule);
   setupApp(app);
-  const configService = app.get(ConfigService);
-  await app.listen(configService.get<number>('PORT') ?? 3000);
+  return app;
 }
-bootstrap();
+
+// برای Vercel
+export default async function handler(req: any, res: any) {
+  if (!cachedServer) {
+    const app = await createApp();
+    await app.init();
+    cachedServer = app.getHttpAdapter().getInstance();
+  }
+  return cachedServer(req, res);
+}
+
+// برای اجرای لوکال
+if (require.main === module) {
+  createApp().then((app) => {
+    const configService = app.get(ConfigService);
+    return app.listen(configService.get<number>('PORT') ?? 3000);
+  });
+}
