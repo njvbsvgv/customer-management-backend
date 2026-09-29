@@ -5,7 +5,8 @@ import Products from '../entities/product.entity';
 import customError from '../utils/customError';
 import { MediaService } from '../utils/mediaUploader';
 import { Repository } from 'typeorm';
-import { v4 as uuid } from 'uuid';
+// import { v4 as uuid } from 'uuid';
+import { randomUUID } from 'crypto';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductPaginationDto } from './dto/ProductPaginationDto';
 
@@ -24,7 +25,7 @@ export class ProductsService {
     const newProduct = this.product_repository.create({
       ...data,
       photo: avatar.url,
-      photo_list: [{ id: uuid(), url: avatar.url }],
+      photo_list: [{ id: randomUUID(), url: avatar.url }],
       subCategory: Array.isArray(catData) ? catData[0] : catData,
       category: catData,
     });
@@ -40,7 +41,7 @@ export class ProductsService {
         {
           photo_list: [
             ...findProduct?.photo_list,
-            { id: uuid(), url: avatar.url },
+            { id: randomUUID(), url: avatar.url },
           ],
         },
       );
