@@ -74,7 +74,7 @@ let cachedServer: any;
 
 async function createApp() {
   const app = await NestFactory.create(AppModule);
-  // setupApp(app);
+  setupApp(app);
   return app;
 }
 
