@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import Users from 'src/entities/user.entity';
-import customError from 'src/utils/customError';
-import { dateGenerator } from 'src/utils/dateService';
-import { hashPasswordHandler } from 'src/utils/hashPassword';
-import { MediaService } from 'src/utils/mediaUploader';
+import Users from '../entities/user.entity';
+import customError from '../utils/customError';
+import { dateGenerator } from '../utils/dateService';
+import { hashPasswordHandler } from '../utils/hashPassword';
+import { MediaService } from '../utils/mediaUploader';
 import { Repository } from 'typeorm';
 import UpdateUserDto from './dto/updateUser.dto';
 import UserDto from './dto/user.dto';
-import { UserActivityService } from 'src/user-activity/user-activity.service';
+import { UserActivityService } from '../user-activity/user-activity.service';
 
 @Injectable()
 export class UserService {

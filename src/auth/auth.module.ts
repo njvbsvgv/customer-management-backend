@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import jwtConfiguration from '../core/config/jwtConfiguration';
-import Users from 'src/entities/user.entity';
-import { UserService } from 'src/user/user.service';
+import Users from '../entities/user.entity';
+import { UserService } from '../user/user.service';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { MediaService } from 'src/utils/mediaUploader';
-import { UserModule } from 'src/user/user.module';
+import { MediaService } from '../utils/mediaUploader';
+import { UserModule } from '../user/user.module';
 // 
 
 @Module({

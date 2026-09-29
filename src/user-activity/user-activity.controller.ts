@@ -1,7 +1,7 @@
 import { Controller, Delete, Get, Param } from '@nestjs/common';
-import successMessageHandler from 'src/utils/successMessageHandler';
+import successMessageHandler from '../utils/successMessageHandler';
 import { UserActivityService } from './user-activity.service';
-import customError from 'src/utils/customError';
+import customError from '../utils/customError';
 
 @Controller('activity')
 export class UserActivityController {

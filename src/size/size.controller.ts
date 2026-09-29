@@ -9,8 +9,8 @@ import {
 } from '@nestjs/common';
 import { SizeService } from './size.service';
 import { CreateSizeDto } from './dto/create-size.dto';
-import successMessageHandler from 'src/utils/successMessageHandler';
-import customError from 'src/utils/customError';
+import successMessageHandler from '../utils/successMessageHandler';
+import customError from '../utils/customError';
 
 @Controller('size')
 export class SizeController {

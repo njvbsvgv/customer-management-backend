@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { UserActivityService } from './user-activity.service';
 import { UserActivityController } from './user-activity.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import UserActivity from 'src/entities/user-activity.entity';
+import UserActivity from '../entities/user-activity.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([UserActivity])],

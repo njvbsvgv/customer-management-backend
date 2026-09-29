@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import Size from 'src/entities/size.entity';
+import Size from '../entities/size.entity';
 import { Repository } from 'typeorm';
 import { CreateSizeDto } from './dto/create-size.dto';
-import customError from 'src/utils/customError';
+import customError from '../utils/customError';
 
 @Injectable()
 export class SizeService {

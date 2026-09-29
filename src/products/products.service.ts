@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CategoryService } from 'src/category/category.service';
-import Products from 'src/entities/product.entity';
-import customError from 'src/utils/customError';
-import { MediaService } from 'src/utils/mediaUploader';
+import { CategoryService } from '../category/category.service';
+import Products from '../entities/product.entity';
+import customError from '../utils/customError';
+import { MediaService } from '../utils/mediaUploader';
 import { Repository } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 import { CreateProductDto } from './dto/create-product.dto';

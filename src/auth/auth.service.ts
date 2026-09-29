@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from 'src/user/user.service';
+import { UserService } from '../user/user.service';
 import {
   confirmCodeGenerator,
   verifyResetCode,
-} from 'src/utils/confirmCodeService';
-import customError from 'src/utils/customError';
-import { comparePassword, hashPasswordHandler } from 'src/utils/hashPassword';
+} from '../utils/confirmCodeService';
+import customError from '../utils/customError';
+import { comparePassword, hashPasswordHandler } from '../utils/hashPassword';
 import LoginDto from './dto/login.dto';
 import RegisterDto from './dto/register.dto';
 import { ResetPassStep2Dto } from './dto/resetPassword.dto';

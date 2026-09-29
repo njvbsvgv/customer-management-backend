@@ -1,4 +1,4 @@
-import Category from "src/entities/category.entity";
+import Category from "../../entities/category.entity";
 
 export class CreateProductDto {
   photo!: string;

@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import customError from 'src/utils/customError';
-import successMessageHandler from 'src/utils/successMessageHandler';
+import customError from '../utils/customError';
+import successMessageHandler from '../utils/successMessageHandler';
 import { AuthService } from './auth.service';
 import LoginDto from './dto/login.dto';
 import RegisterDto from './dto/register.dto';

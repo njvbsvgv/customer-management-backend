@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import UserActivity from 'src/entities/user-activity.entity';
-import { dateGenerator } from 'src/utils/dateService';
+import UserActivity from '../entities/user-activity.entity';
+import { dateGenerator } from '../utils/dateService';
 import { Repository } from 'typeorm';
 import { CreateUserActivityDto } from './dto/create-user-activity.dto';
 

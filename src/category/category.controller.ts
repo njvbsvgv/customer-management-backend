@@ -7,10 +7,10 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
-import successMessageHandler from 'src/utils/successMessageHandler';
+import successMessageHandler from '../utils/successMessageHandler';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
-import customError from 'src/utils/customError';
+import customError from '../utils/customError';
 import { NoFilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('category')

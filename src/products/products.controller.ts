@@ -9,9 +9,9 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import customError from 'src/utils/customError';
-import { imageUploadInterceptor } from 'src/utils/mediaUploader';
-import successMessageHandler from 'src/utils/successMessageHandler';
+import customError from '../utils/customError';
+import { imageUploadInterceptor } from '../utils/mediaUploader';
+import successMessageHandler from '../utils/successMessageHandler';
 import { CreateProductDto } from './dto/create-product.dto';
 import { ProductsService } from './products.service';
 import { ProductPaginationDto } from './dto/ProductPaginationDto';

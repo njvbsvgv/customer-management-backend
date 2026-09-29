@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import Category from './category.entity';
 import Size from './size.entity';
-import { CreateCategoryDto } from 'src/category/dto/create-category.dto';
+import { CreateCategoryDto } from '../category/dto/create-category.dto';
 
 @Entity('products')
 export default class Products {
