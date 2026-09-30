@@ -15,6 +15,10 @@ import * as pg from 'pg';
 @Module({
   imports: [
     AuthModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env',
+    }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -25,10 +29,6 @@ import * as pg from 'pg';
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
       }),
-    }),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: '.env',
     }),
     UserModule,
     ProductsModule,

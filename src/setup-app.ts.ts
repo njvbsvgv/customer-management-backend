@@ -6,7 +6,6 @@ import passport from 'passport';
 export function setupApp(app: INestApplication) {
   const configService = app.get(ConfigService);
 
-//   app.setGlobalPrefix(configService.get<string>('GLOBAL_PREFIX') ?? '');
   app.enableCors();
   app.useGlobalPipes(new ValidationPipe());
   app.use(
